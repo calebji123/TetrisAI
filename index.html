@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+   <link href="style.css" rel="stylesheet" type="text/css"/>
+   <title>Tetrisuses</title>
+</head>
+<body>
+   <div id="header">
+      <h2 id="title">Tetrisuses</h2>
+      <p id="desc">Powered by OpenAI ChatGPT<br>Read more on my <a href="">Github</a></p>
+   </div>
+   <div id="score">
+     0
+   </div>
+   <div class="game-container">
+     <div class="held-piece-container">
+       <canvas id="held-piece" width="120" height="80"></canvas>
+     </div>
+     <div id="line-count-container">
+      <div>Lines</div>
+      <div id="line-count">0</div>
+    </div>
+    <div id="level-container">
+      <div>Level</div>
+      <div id="level"> 1</div>
+    </div>
+     <div class="gameboard-container">
+       <canvas id="game-board"width="250" height="500" ></canvas>
+     </div>
+     <div class="next-box-container">
+       <canvas id="next-box" width="120" height="80"></canvas>
+     </div>
+   </div>
+   <div id="other">
+   <div id="options">
+      <h1>Options</h1>
+      <label for="sticktris">
+        <input type="checkbox" id="sticktris" name="sticktris" value="sticktris">
+        Sticktris
+      </label>
+      <br>
+      <label for="norotation">
+        <input type="checkbox" id="norotation" name="norotation" value="norotation">
+        No Rotation
+      </label>
+      <br>
+      <label for="generaterotated">
+        <input type="checkbox" id="generaterotated" name="generaterotated" value="generaterotated">
+        Generate Rotated
+      </label>
+      <br>
+      <label for="addGarbage">
+        <input type="checkbox" id="addGarbage" name="addGarbage" value="addGarbage">
+        Add Garbage
+      </label>
+      <br>
+      <label for="maxGarbage">Max Garbage:</label>
+      <input type="range" id="maxGarbage" name="maxGarbage" min="0" max="20" value="10">
+      <br>
+      <label for="averageGarbage">Average Garbage:</label>
+      <input type="range" id="averageGarbage" name="averageGarbage" min="1" max="10" value="5">
+      <br>
+      <label for="columnScoring">
+        <input type="checkbox" id="columnScoring" name="columnScoring" value="columnScoring">
+        Column Scoring
+      </label>
+      <br>
+      <label for="columnScoreLength">Column Score Length:</label>
+      <input type="range" id="columnScoreLength" name="columnScoreLength" min="5" max="20" value="10">
+    </div>
+    <div id="keybinds">
+      <h1>Change Key Binds</h1>
+      <label for="moveLeft">Move Left:</label>
+      <input type="button" id="moveLeft" name="moveLeft" value="A">
+      <br>
+      <label for="moveRight">Move Right:</label>
+      <input type="button" id="moveRight" name="moveRight" value="D">
+      <br>
+      <label for="softDrop">Soft Drop:</label>
+      <input type="button" id="softDrop" name="softDrop" value="S">
+      <br>
+      <label for="hardDrop">Hard Drop:</label>
+      <input type="button" id="hardDrop" name="hardDrop" value="W">
+      <br>
+      <label for="hold">Hold:</label>
+      <input type="button" id="hold" name="hold" value="Shift">
+      <br>
+      <label for="rotateLeft">Rotate Left:</label>
+      <input type="button" id="rotateLeft" name="rotateLeft" value="Z">
+      <br>
+      <label for="rotateRight">Rotate Right:</label>
+      <input type="button" id="rotateRight" name="rotateRight" value="X">
+      <br>
+      <label for="pause">Pause:</label>
+      <input type="button" id="pause" name="pause" value="P">
+    </div>
+   </div>
+   <div class="button" id="start-button">
+     Start
+   </div>
+   <div class="button" id="pause-button">
+     Pause
+   </div>
+ </body>
+  <script src="/script.js"></script>
+</html>

@@ -1,0 +1,4 @@
+/* define the style for the game board */
+canvas {
+   border: 1px solid black;
+ }
