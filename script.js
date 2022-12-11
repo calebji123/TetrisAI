@@ -67,6 +67,9 @@ class Tetris {
       const averageGarbageSlider = document.getElementById("averageGarbage");
       const columnScoringCheckbox = document.getElementById("columnScoring");
       const columnScoreLengthSlider = document.getElementById("columnScoreLength");
+      const maxGarbageValue = document.getElementById("maxGarbageValue");
+      const averageGarbageValue = document.getElementById("averageGarbageValue");
+      const columnScoreLengthValue = document.getElementById("columnScoreLengthValue");
 
       sticktrisCheckbox.checked = this.sticktris;
       norotationCheckbox.checked = this.noRotation;
@@ -79,8 +82,9 @@ class Tetris {
       maxGarbageSlider.value = this.maxGarbage;
       averageGarbageSlider.value = this.averageGarbage;
       columnScoreLengthSlider.value = this.columnScoreLength;
-
-
+      maxGarbageValue.textContent = this.maxGarbage;
+      averageGarbageValue.textContent = this.averageGarbage;
+      columnScoreLengthValue.textContent = this.columnScoreLength;
 
 
       // Add event listeners for the checkboxes and sliders
@@ -104,10 +108,12 @@ class Tetris {
 
       maxGarbageSlider.addEventListener("change", () => {
       this.maxGarbage = maxGarbageSlider.value;
+      maxGarbageValue.textContent = this.maxGarbage;
       });
 
       averageGarbageSlider.addEventListener("change", () => {
       this.averageGarbage = averageGarbageSlider.value;
+      averageGarbageValue.textContent = this.averageGarbage;
       });
 
       columnScoringCheckbox.addEventListener("change", () => {
@@ -117,6 +123,7 @@ class Tetris {
 
       columnScoreLengthSlider.addEventListener("change", () => {
       this.columnScoreLength = columnScoreLengthSlider.value;
+      columnScoreLengthValue.textContent = this.columnScoreLength;
       });
 
       // Get references to the input elements
@@ -286,7 +293,7 @@ class Tetris {
                   // Use Math.random() to determine whether to fill the cell with a color
                   if (Math.random() < garbAve / this.gameboard[row].length && !(count > garbAve + sd)) {
                      // Fill the cell with a random color
-                     this.gameboard[row][col] = this.getRandomColor();
+                     this.gameboard[row][col] = "darkgrey";
                      count += 1
                   }
                }
@@ -406,26 +413,22 @@ class Tetris {
     update(x, y) {
          // Check if current tetromino collides
          if (this.collides(this.currentTetromino, 0, y) || (this.sticktris && this.collides(this.currentTetromino, x, y))) {
-            // Check if game is over
-            if (this.currentTetromino.y <= 0 && y != 0 ) {
-            // Game over
-            this.gameOver();
-            } else {
             // Add current tetromino to gameboard
             this.addToGameboard();
 
-            // Check for full rows
-            this.fullRows();
+            if(!this.isGameOver) {
+               // Check for full rows
+               this.fullRows();
 
-            //check for filled columns
-            this.fullColumns();
+               //check for filled columns
+               this.fullColumns();
+            }
 
             // Get new random tetromino
             this.currentTetromino = this.nextTetromino;
             this.nextTetromino = this.generateRotated ? this.randomRotatedTetromino() : this.getRandomTetromino();
 
             this.canHold = true;
-            }
          } else if (this.collides(this.currentTetromino, x, 0) && !this.sticktris) {
             this.currentTetromino.y += y;
          } else {
@@ -445,7 +448,11 @@ class Tetris {
           // Check if block is filled
           if (this.currentTetromino.type[row][col] !== 0) {
             // Add block to gameboard
+            if (this.gameboard[this.currentTetromino.y + row][this.currentTetromino.x + col] != 0) {
+               this.gameOver();
+            }
             this.gameboard[this.currentTetromino.y + row][this.currentTetromino.x + col] = this.currentTetromino.color;
+            
           }
         }
       }
@@ -543,6 +550,15 @@ class Tetris {
             consecutiveCount = 0; // Reset the consecutive count
           }
         }
+        // Check if the consecutive count is greater than COL_SCORE_LENGTH
+        if (consecutiveCount >= this.columnScoreLength) {
+         // Replace the values with zero
+         for (var i = 1; i < consecutiveCount+1; i++) {
+           this.gameboard[row - i][col] = 0;
+         }
+
+         colscleared++; // Increment colscleared
+       }
       }
       // Calculate score
       let score = 0;
@@ -721,7 +737,6 @@ class Tetris {
       this.holdctx.fillRect(0, 0, this.heldPiece.width , this.heldPiece.height);
       // Draw held tetromino
       if (this.heldTetromino !== null ) {
-         console.log(this.heldTetromino)
                // Calculate the center of the canvas
          var canvasCenterX = this.heldPiece.width / 2;
          var canvasCenterY = this.heldPiece.height / 2;
