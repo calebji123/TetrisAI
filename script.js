@@ -221,7 +221,7 @@ class Tetris {
       // Generate new current and next tetrominos
       this.currentTetromino = this.getRandomTetromino();
       this.nextTetromino = this.getRandomTetromino();
-      this.heldTetromino = {};
+      this.heldTetromino = null;
   
       // Reset score and level
       this.score = 0;
@@ -721,6 +721,7 @@ class Tetris {
       this.holdctx.fillRect(0, 0, this.heldPiece.width , this.heldPiece.height);
       // Draw held tetromino
       if (this.heldTetromino !== null ) {
+         console.log(this.heldTetromino)
                // Calculate the center of the canvas
          var canvasCenterX = this.heldPiece.width / 2;
          var canvasCenterY = this.heldPiece.height / 2;
@@ -887,7 +888,7 @@ class Tetris {
     }
   
     handleKeyDown(event) {
-  
+      event.preventDefault();
       // Handle keydown event
       if (this.isRunning) {
          switch (event.key) {
