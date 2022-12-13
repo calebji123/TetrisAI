@@ -421,7 +421,9 @@ class Tetris {
                this.fullRows();
 
                //check for filled columns
-               this.fullColumns();
+               if (this.columnScoring) {
+                this.fullColumns();
+               }
             }
 
             // Get new random tetromino
